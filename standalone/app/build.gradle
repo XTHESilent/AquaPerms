@@ -51,6 +51,6 @@ dependencies {
 }
 
 blossom {
-    replaceTokenIn('src/main/java/me/lucko/luckperms/standalone/app/LuckPermsApplication.java')
+    replaceTokenIn('src/main/java/com.xthesilent/aquaperms/standalone/app/AquaPermsApplication.java')
     replaceToken '@version@', project.ext.fullVersion
 }

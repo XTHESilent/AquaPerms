@@ -1,9 +1,9 @@
-name: LuckPerms
+name: AquaPerms
 version: ${pluginVersion}
-description: A permissions plugin
-author: Luck
-website: https://luckperms.net
-main: me.lucko.luckperms.bukkit.loader.BukkitLoaderPlugin
+description: A plugin better than LuckPerms
+author: XTHESilent
+website: https://aquasplashmc.ddns.net/aquaperms
+main: com.xthesilent.aquaperms.bukkit.loader.BukkitLoaderPlugin
 load: STARTUP
 
 # Mark the plugin as 1.13 compatible to avoid CB having to perform quite as much unnecessary
@@ -11,8 +11,8 @@ load: STARTUP
 # LP is still compatible with pre-1.13 releases.
 api-version: 1.13
 
-# Load LuckPerms before Vault. This means that all plugins that (soft-)depend
-# on Vault depend on LuckPerms too.
+# Load AquaPerms before Vault. This means that all plugins that (soft-)depend
+# on Vault depend on AquaPerms too.
 #
 # This fixes issues caused by plugins obtaining the Vault service provider instance
 # only once when they initially enable. (if they haven't depended on LP, our registration
@@ -24,6 +24,6 @@ loadbefore: [Vault]
 softdepend: [LilyPad-Connect, ViaVersion]
 
 commands:
-  luckperms:
+  aquaperms:
     description: Manage permissions
-    aliases: [lp, perm, perms, permission, permissions]
+    aliases: [ap, perm, perms, permission, permissions]

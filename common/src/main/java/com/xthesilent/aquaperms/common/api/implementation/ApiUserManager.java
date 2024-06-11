@@ -1,0 +1,184 @@
+/*
+ * This file is part of AquaPerms, licensed under the MIT License.
+ *
+ *  Copyright (c) AquasplashMC (XTHESilent) <xthesilent@aquasplashmc.com>
+ *  Copyright (c) contributors
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ */
+
+package com.xthesilent.aquaperms.common.api.implementation;
+
+import com.google.common.collect.ImmutableListMultimap;
+import com.xthesilent.aquaperms.common.api.ApiUtils;
+import com.xthesilent.aquaperms.common.model.User;
+import com.xthesilent.aquaperms.common.model.manager.user.UserManager;
+import com.xthesilent.aquaperms.common.node.matcher.ConstraintNodeMatcher;
+import com.xthesilent.aquaperms.common.node.matcher.StandardNodeMatchers;
+import com.xthesilent.aquaperms.common.plugin.AquaPermsPlugin;
+import com.xthesilent.aquaperms.common.storage.misc.NodeEntry;
+import com.xthesilent.aquaperms.common.util.ImmutableCollectors;
+import com.aquasplashmc.api.model.PlayerSaveResult;
+import com.aquasplashmc.api.node.HeldNode;
+import com.aquasplashmc.api.node.Node;
+import com.aquasplashmc.api.node.matcher.NodeMatcher;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+
+public class ApiUserManager extends ApiAbstractManager<User, com.aquasplashmc.api.model.user.User, UserManager<?>> implements com.aquasplashmc.api.model.user.UserManager {
+    public ApiUserManager(AquaPermsPlugin plugin, UserManager<?> handle) {
+        super(plugin, handle);
+    }
+
+    @Override
+    protected com.aquasplashmc.api.model.user.User proxy(User internal) {
+        return internal == null ? null : internal.getApiProxy();
+    }
+
+    private com.aquasplashmc.api.model.user.User proxyAndRegisterUsage(User internal) {
+        if (internal != null) {
+            this.plugin.getUserManager().getHouseKeeper().registerApiUsage(internal.getUniqueId());
+        }
+        return proxy(internal);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<com.aquasplashmc.api.model.user.User> loadUser(@NonNull UUID uniqueId, @Nullable String username) {
+        Objects.requireNonNull(uniqueId, "uuid");
+        ApiUtils.checkUsername(username, this.plugin);
+
+        return this.plugin.getStorage().loadUser(uniqueId, username)
+                .thenApply(this::proxyAndRegisterUsage);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<UUID> lookupUniqueId(@NonNull String username) {
+        Objects.requireNonNull(username, "username");
+        return this.plugin.getStorage().getPlayerUniqueId(username);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<String> lookupUsername(@NonNull UUID uniqueId) {
+        Objects.requireNonNull(uniqueId, "uuid");
+        return this.plugin.getStorage().getPlayerName(uniqueId);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<Void> saveUser(com.aquasplashmc.api.model.user.@NonNull User user) {
+        User internal = ApiUser.cast(Objects.requireNonNull(user, "user"));
+        this.plugin.getUserManager().giveDefaultIfNeeded(internal);
+        return this.plugin.getStorage().saveUser(internal);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<Void> modifyUser(@NonNull UUID uniqueId, @NonNull Consumer<? super com.aquasplashmc.api.model.user.User> action) {
+        Objects.requireNonNull(uniqueId, "uniqueId");
+        Objects.requireNonNull(action, "action");
+
+        return this.plugin.getStorage().loadUser(uniqueId, null)
+                .thenApplyAsync(user -> {
+                    action.accept(user.getApiProxy());
+                    return user;
+                }, this.plugin.getBootstrap().getScheduler().async())
+                .thenCompose(user -> {
+                    this.plugin.getUserManager().giveDefaultIfNeeded(user);
+                    return this.plugin.getStorage().saveUser(user);
+                });
+    }
+
+    @Override
+    public @NonNull CompletableFuture<PlayerSaveResult> savePlayerData(@NonNull UUID uniqueId, @NonNull String username) {
+        Objects.requireNonNull(uniqueId, "uuid");
+        Objects.requireNonNull(username, "username");
+        return this.plugin.getStorage().savePlayerData(uniqueId, username);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<Void> deletePlayerData(@NonNull UUID uniqueId) {
+        Objects.requireNonNull(uniqueId, "uniqueId");
+        return this.plugin.getStorage().deletePlayerData(uniqueId);
+    }
+
+    @Override
+    public @NonNull CompletableFuture<Set<UUID>> getUniqueUsers() {
+        return this.plugin.getStorage().getUniqueUsers();
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    @Deprecated
+    public @NonNull CompletableFuture<List<HeldNode<UUID>>> getWithPermission(@NonNull String permission) {
+        Objects.requireNonNull(permission, "permission");
+        return (CompletableFuture) this.plugin.getStorage().searchUserNodes(StandardNodeMatchers.key(permission));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Node> @NonNull CompletableFuture<Map<UUID, Collection<T>>> searchAll(@NonNull NodeMatcher<? extends T> matcher) {
+        Objects.requireNonNull(matcher, "matcher");
+        ConstraintNodeMatcher<? extends T> constraint = (ConstraintNodeMatcher<? extends T>) matcher;
+        return this.plugin.getStorage().searchUserNodes(constraint).thenApply(list -> {
+            ImmutableListMultimap.Builder<UUID, T> builder = ImmutableListMultimap.builder();
+            for (NodeEntry<UUID, ? extends T> row : list) {
+                builder.put(row.getHolder(), row.getNode());
+            }
+            return builder.build().asMap();
+        });
+    }
+
+    @Override
+    public com.aquasplashmc.api.model.user.User getUser(@NonNull UUID uniqueId) {
+        Objects.requireNonNull(uniqueId, "uuid");
+        return proxyAndRegisterUsage(this.handle.getIfLoaded(uniqueId));
+    }
+
+    @Override
+    public com.aquasplashmc.api.model.user.User getUser(@NonNull String username) {
+        Objects.requireNonNull(username, "name");
+        return proxyAndRegisterUsage(this.handle.getByUsername(username));
+    }
+
+    @Override
+    public @NonNull Set<com.aquasplashmc.api.model.user.User> getLoadedUsers() {
+        return this.handle.getAll().values().stream()
+                .map(this::proxy)
+                .collect(ImmutableCollectors.toSet());
+    }
+
+    @Override
+    public boolean isLoaded(@NonNull UUID uniqueId) {
+        Objects.requireNonNull(uniqueId, "uuid");
+        return this.handle.isLoaded(uniqueId);
+    }
+
+    @Override
+    public void cleanupUser(com.aquasplashmc.api.model.user.@NonNull User user) {
+        Objects.requireNonNull(user, "user");
+        this.handle.getHouseKeeper().clearApiUsage(ApiUser.cast(user).getUniqueId());
+    }
+}

@@ -1,9 +1,9 @@
-group = 'net.luckperms'
+group = 'com.aquasplashmc'
 project.version = '5.4'
 
 jar {
     manifest {
-        attributes('Automatic-Module-Name': 'net.luckperms.api')
+        attributes('Automatic-Module-Name': 'com.aquasplashmc.api')
     }
 }
 
@@ -18,7 +18,7 @@ if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePass
     apply plugin: 'signing'
 
     javadoc {
-        title = 'LuckPerms API (v' + project.ext.apiVersion + ')'
+        title = 'AquaPerms API (v' + project.ext.apiVersion + ')'
         options.overview = 'javadoc/overview.html'
         options.encoding = 'UTF-8'
         options.charSet = 'UTF-8'
@@ -62,9 +62,9 @@ if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePass
                 from components.java
 
                 pom {
-                    name = 'LuckPerms API'
+                    name = 'AquaPerms API'
                     description = 'A permissions plugin for Minecraft servers.'
-                    url = 'https://luckperms.net'
+                    url = 'https://aquasplashmc.ddns.net/aquaperms'
 
                     licenses {
                         license {
@@ -83,14 +83,14 @@ if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePass
                     }
 
                     scm {
-                        connection = 'scm:git:https://github.com/LuckPerms/LuckPerms.git'
-                        developerConnection = 'scm:git:git@github.com:LuckPerms/LuckPerms.git'
-                        url = 'https://github.com/LuckPerms/LuckPerms'
+                        connection = 'scm:git:https://github.com/AquaPerms/AquaPerms.git'
+                        developerConnection = 'scm:git:git@github.com:AquaPerms/AquaPerms.git'
+                        url = 'https://github.com/AquaPerms/AquaPerms'
                     }
 
                     issueManagement {
                         system = 'GitHub'
-                        url = 'https://github.com/LuckPerms/LuckPerms/issues'
+                        url = 'https://github.com/AquaPerms/AquaPerms/issues'
                     }
                 }
             }

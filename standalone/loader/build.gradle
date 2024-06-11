@@ -15,7 +15,7 @@ sourceCompatibility = 17
 targetCompatibility = 17
 
 application {
-    mainClass = 'me.lucko.luckperms.standalone.loader.StandaloneLoader'
+    mainClass = 'com.xthesilent.aquaperms.standalone.loader.StandaloneLoader'
 }
 
 processResources {
@@ -23,7 +23,7 @@ processResources {
 }
 
 shadowJar {
-    archiveFileName = "LuckPerms-Standalone-${project.ext.fullVersion}.jar"
+    archiveFileName = "AquaPerms-Standalone-${project.ext.fullVersion}.jar"
 
     from {
         project(':standalone').tasks.shadowJar.archiveFile

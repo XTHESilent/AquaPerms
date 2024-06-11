@@ -7,8 +7,8 @@
 # |                                     https://luckperms.net                                    | #
 # |                                                                                              | #
 # |  WIKI:        https://luckperms.net/wiki                                                     | #
-# |  DISCORD:     https://discord.gg/luckperms                                                   | #
-# |  BUG REPORTS: https://github.com/LuckPerms/LuckPerms/issues                                  | #
+# |  DISCORD:     https://discord.gg/aquaperms                                                   | #
+# |  BUG REPORTS: https://github.com/AquaPerms/AquaPerms/issues                                  | #
 # |                                                                                              | #
 # |  Each option in this file is documented and explained here:                                  | #
 # |   ==>  https://luckperms.net/wiki/Configuration                                              | #
@@ -22,7 +22,7 @@
 # |                                                                                              | #
 # |                                      ESSENTIAL SETTINGS                                      | #
 # |                                                                                              | #
-# |                   Important settings that control how LuckPerms functions.                   | #
+# |                   Important settings that control how AquaPerms functions.                   | #
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
@@ -40,7 +40,7 @@ server: global
 # |                                                                                              | #
 # |                                       STORAGE SETTINGS                                       | #
 # |                                                                                              | #
-# |                Controls which storage method LuckPerms will use to store data.               | #
+# |                Controls which storage method AquaPerms will use to store data.               | #
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
@@ -87,7 +87,7 @@ data:
   # - Specify as "host:port" if differs
   address: localhost
 
-  # The name of the database to store LuckPerms data in.
+  # The name of the database to store AquaPerms data in.
   # - This must be created already. Don't worry about this setting if you're using MongoDB.
   database: minecraft
 
@@ -143,13 +143,13 @@ data:
       #useSSL: false
       #verifyServerCertificate: false
 
-  # The prefix for all LuckPerms SQL tables.
+  # The prefix for all AquaPerms SQL tables.
   #
   # - This only applies for remote SQL storage types (MySQL, MariaDB, etc).
   # - Change this if you want to use different tables for different servers.
-  table-prefix: 'luckperms_'
+  table-prefix: 'aquaperms_'
 
-  # The prefix to use for all LuckPerms MongoDB collections.
+  # The prefix to use for all AquaPerms MongoDB collections.
   #
   # - This only applies for the MongoDB storage type.
   # - Change this if you want to use different collections for different servers. The default is no
@@ -187,12 +187,12 @@ split-storage:
 # |                                                                                              | #
 # |                            UPDATE PROPAGATION & MESSAGING SERVICE                            | #
 # |                                                                                              | #
-# |    Controls the ways in which LuckPerms will sync data & notify other servers of changes.    | #
+# |    Controls the ways in which AquaPerms will sync data & notify other servers of changes.    | #
 # |     These options are documented on greater detail on the wiki under "Instant Updates".      | #
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
-# This option controls how frequently LuckPerms will perform a sync task.
+# This option controls how frequently AquaPerms will perform a sync task.
 #
 # - A sync task will refresh all data from the storage, and ensure that the most up-to-date data is
 #   being used by the plugin.
@@ -203,20 +203,20 @@ sync-minutes: -1
 
 # If the file watcher should be enabled.
 #
-# - When using a file-based storage type, LuckPerms can monitor the data files for changes, and
+# - When using a file-based storage type, AquaPerms can monitor the data files for changes, and
 #   automatically update when changes are detected.
 # - If you don't want this feature to be active, set this option to false.
 watch-files: true
 
 # Define which messaging service should be used by the plugin.
 #
-# - If enabled and configured, LuckPerms will use the messaging service to inform other connected
+# - If enabled and configured, AquaPerms will use the messaging service to inform other connected
 #   servers of changes.
 # - Use the command "/lp networksync" to manually push changes.
 # - Data is NOT stored using this service. It is only used as a messaging platform.
 #
 # - If you decide to enable this feature, you should set "sync-minutes" to -1, as there is no need
-#   for LuckPerms to poll the database for changes.
+#   for AquaPerms to poll the database for changes.
 #
 # - Possible options:
 #   => sql       Uses the SQL database to form a queue system for communication. Will only work when
@@ -228,19 +228,19 @@ watch-files: true
 #                configured below.
 #   => nats      Uses Nats pub-sub to push changes. Your server connection info must be
 #                configured below.
-#   => custom    Uses a messaging service provided using the LuckPerms API.
+#   => custom    Uses a messaging service provided using the AquaPerms API.
 #   => auto      Attempts to automatically setup a messaging service using redis or sql.
 messaging-service: auto
 
-# If LuckPerms should automatically push updates after a change has been made with a command.
+# If AquaPerms should automatically push updates after a change has been made with a command.
 auto-push-updates: true
 
-# If LuckPerms should push logging entries to connected servers via the messaging service.
+# If AquaPerms should push logging entries to connected servers via the messaging service.
 push-log-entries: true
 
-# If LuckPerms should broadcast received logging entries to players on this platform.
+# If AquaPerms should broadcast received logging entries to players on this platform.
 #
-# - If you have LuckPerms installed on your backend servers as well as a BungeeCord proxy, you
+# - If you have AquaPerms installed on your backend servers as well as a BungeeCord proxy, you
 #   should set this option to false on either your backends or your proxies, to avoid players being
 #   messaged twice about log entries.
 broadcast-received-log-entries: true
@@ -278,7 +278,7 @@ rabbitmq:
 # |                                                                                              | #
 # |                                    CUSTOMIZATION SETTINGS                                    | #
 # |                                                                                              | #
-# |              Settings that allow admins to customize the way LuckPerms operates.             | #
+# |              Settings that allow admins to customize the way AquaPerms operates.             | #
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
@@ -295,10 +295,10 @@ rabbitmq:
 #   => deny         the command will just fail if you try to add another node with the same expiry
 temporary-add-behaviour: deny
 
-# Controls how LuckPerms will determine a users "primary" group.
+# Controls how AquaPerms will determine a users "primary" group.
 #
 # - The meaning and influence of "primary groups" are explained in detail on the wiki.
-# - The preferred approach is to let LuckPerms automatically determine a users primary group
+# - The preferred approach is to let AquaPerms automatically determine a users primary group
 #   based on the relative weight of their parent groups.
 #
 # - Possible options:
@@ -335,7 +335,7 @@ log-notify: true
 log-notify-filtered-descriptions:
 #  - "parent add example"
 
-# If LuckPerms should automatically install translation bundles and periodically update them.
+# If AquaPerms should automatically install translation bundles and periodically update them.
 auto-install-translations: true
 
 # Defines the options for prefix and suffix stacking.
@@ -413,7 +413,7 @@ meta-formatting:
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
-# The algorithm LuckPerms should use when traversing the "inheritance tree".
+# The algorithm AquaPerms should use when traversing the "inheritance tree".
 #
 # - Possible options:
 #   => breadth-first            See: https://en.wikipedia.org/wiki/Breadth-first_search
@@ -483,11 +483,11 @@ meta-value-selection:
 
 # If the plugin should apply wildcard permissions.
 #
-# - If set to true, LuckPerms will detect wildcard permissions, and resolve & apply all registered
+# - If set to true, AquaPerms will detect wildcard permissions, and resolve & apply all registered
 #   permissions matching the wildcard.
 apply-wildcards: true
 
-# If LuckPerms should resolve and apply permissions according to the Sponge style implicit wildcard
+# If AquaPerms should resolve and apply permissions according to the Sponge style implicit wildcard
 # inheritance system.
 #
 # - That being: If a user has been granted "example", then the player should have also be
@@ -501,20 +501,20 @@ apply-sponge-implicit-wildcards: false
 # - Plugin authors can define permissions which explicitly should not be given automatically to OPs.
 #   This is usually used for so called "anti-permissions" - permissions which, when granted, apply
 #   something negative.
-# - If this option is set to true, LuckPerms will consider any negated declarations made by
+# - If this option is set to true, AquaPerms will consider any negated declarations made by
 #   plugins before it considers wildcards. (similar to the way the OP system works)
-# - If this option is set to false, LuckPerms will consider any wildcard assignments first.
+# - If this option is set to false, AquaPerms will consider any wildcard assignments first.
 apply-default-negated-permissions-before-wildcards: false
 
 # If the plugin should parse regex permissions.
 #
-# - If set to true, LuckPerms will detect regex permissions, marked with "r=" at the start of the
+# - If set to true, AquaPerms will detect regex permissions, marked with "r=" at the start of the
 #   node, and resolve & apply all registered permissions matching the regex.
 apply-regex: true
 
 # If the plugin should complete and apply shorthand permissions.
 #
-# - If set to true, LuckPerms will detect and expand shorthand node patterns.
+# - If set to true, AquaPerms will detect and expand shorthand node patterns.
 apply-shorthand: true
 
 # +----------------------------------------------------------------------------------------------+ #
@@ -544,7 +544,7 @@ group-weight:
 # |                                                                                              | #
 # |     A number of more niche settings for tweaking and changing behaviour. The section also    | #
 # | contains toggles for some more specialised features. It is only necessary to make changes to | #
-# |                  these options if you want to fine-tune LuckPerms behaviour.                 | #
+# |                  these options if you want to fine-tune AquaPerms behaviour.                 | #
 # |                                                                                              | #
 # +----------------------------------------------------------------------------------------------+ #
 
@@ -552,27 +552,27 @@ group-weight:
 # | Miscellaneous (and rarely used) settings                                                     | #
 # +----------------------------------------------------------------------------------------------+ #
 
-# If LuckPerms should allow usernames with non alphanumeric characters.
+# If AquaPerms should allow usernames with non alphanumeric characters.
 #
 # - Note that due to the design of the storage implementation, usernames must still be 16 characters
 #   or less.
 allow-invalid-usernames: false
 
-# If LuckPerms should not require users to confirm bulkupdate operations.
+# If AquaPerms should not require users to confirm bulkupdate operations.
 #
 # - When set to true, operations will be executed immediately.
 # - This is not recommended, as bulkupdate has the potential to irreversibly delete large amounts of
 #   data, and is not designed to be executed automatically.
-# - If automation is needed, users should prefer using the LuckPerms API.
+# - If automation is needed, users should prefer using the AquaPerms API.
 skip-bulkupdate-confirmation: false
 
-# If LuckPerms should prevent bulkupdate operations.
+# If AquaPerms should prevent bulkupdate operations.
 #
-# - When set to true, bulkupdate operations (the /lp bulkupdate command) will not work.
+# - When set to true, bulkupdate operations (the /ap bulkupdate command) will not work.
 # - When set to false, bulkupdate operations will be allowed via the console.
 disable-bulkupdate: false
 
-# If LuckPerms should allow a users primary group to be removed with the 'parent remove' command.
+# If AquaPerms should allow a users primary group to be removed with the 'parent remove' command.
 #
 # - When this happens, the plugin will set their primary group back to default.
 prevent-primary-group-removal: false

@@ -6,13 +6,13 @@
   "license": "MIT",
   "plugins": [
     {
-      "id": "luckperms",
-      "name": "LuckPerms",
+      "id": "aquaperms",
+      "name": "AquaPerms",
       "version": "${pluginVersion}",
-      "entrypoint": "me.lucko.luckperms.sponge.loader.SpongeLoaderPlugin",
+      "entrypoint": "com.xthesilent.aquaperms.sponge.loader.SpongeLoaderPlugin",
       "description": "A permissions plugin",
       "links": {
-        "homepage": "https://luckperms.net"
+        "homepage": "https://aquasplashmc.ddns.net/aquaperms"
       },
       "contributors": [
         {

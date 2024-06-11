@@ -1,0 +1,88 @@
+/*
+ * This file is part of AquaPerms, licensed under the MIT License.
+ *
+ *  Copyright (c) AquasplashMC (XTHESilent) <xthesilent@aquasplashmc.com>
+ *  Copyright (c) contributors
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ */
+
+package com.xthesilent.aquaperms.common.verbose;
+
+import com.xthesilent.aquaperms.common.verbose.event.VerboseEvent;
+import com.xthesilent.aquaperms.common.verbose.expression.BooleanExpressionCompiler;
+import com.xthesilent.aquaperms.common.verbose.expression.BooleanExpressionCompiler.AST;
+import com.xthesilent.aquaperms.common.verbose.expression.BooleanExpressionCompiler.LexerException;
+import com.xthesilent.aquaperms.common.verbose.expression.BooleanExpressionCompiler.ParserException;
+
+/**
+ * Represents a verbose filter expression.
+ *
+ * <p>The expression is compiled when the instance is initialised - subsequent
+ * evaluations should be relatively fast.</p>
+ */
+public final class VerboseFilter {
+    private final String expression;
+    private final AST ast;
+
+    public static VerboseFilter acceptAll() {
+        return new VerboseFilter("", AST.ALWAYS_TRUE);
+    }
+
+    public static VerboseFilter compile(String expression) throws InvalidFilterException {
+        if (expression.isEmpty()) {
+            return acceptAll();
+        }
+
+        try {
+            return new VerboseFilter(expression, BooleanExpressionCompiler.compile(expression));
+        } catch (LexerException | ParserException e) {
+            throw new InvalidFilterException("Exception occurred whilst generating an expression for '" + expression + "'", e);
+        }
+    }
+
+    private VerboseFilter(String expression, AST ast) {
+        this.expression = expression;
+        this.ast = ast;
+    }
+
+    /**
+     * Evaluates whether the check data passes the filter
+     *
+     * @param data the check data
+     * @return if the check data passes the filter
+     */
+    public boolean evaluate(VerboseEvent data) {
+        try {
+            return this.ast.eval(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isBlank() {
+        return this.ast == AST.ALWAYS_TRUE;
+    }
+
+    @Override
+    public String toString() {
+        return isBlank() ? "any" : this.expression;
+    }
+}

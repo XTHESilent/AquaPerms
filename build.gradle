@@ -12,7 +12,7 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'org.cadixdev.licenser'
 
-    group = 'me.lucko.luckperms'
+    group = 'com.xthesilent.aquaperms'
     version = '5.4-SNAPSHOT'
 
     sourceCompatibility = 1.8

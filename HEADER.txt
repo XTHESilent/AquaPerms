@@ -1,6 +1,6 @@
-This file is part of LuckPerms, licensed under the MIT License.
+This file is part of AquaPerms, licensed under the MIT License.
 
- Copyright (c) lucko (Luck) <luck@lucko.me>
+ Copyright (c) AquasplashMC (XTHESilent) <xthesilent@aquasplashmc.com>
  Copyright (c) contributors
 
  Permission is hereby granted, free of charge, to any person obtaining a copy

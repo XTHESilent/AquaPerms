@@ -27,11 +27,11 @@ jar {
     manifest {
         attributes(
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Implementation-Title': 'LuckPerms',
-                'Implementation-Vendor': 'LuckPerms',
+                'Implementation-Title': 'AquaPerms',
+                'Implementation-Vendor': 'AquaPerms',
                 'Implementation-Version': project.ext.fullVersion,
-                'Specification-Title': 'luckperms',
-                'Specification-Vendor': 'LuckPerms',
+                'Specification-Title': 'aquaperms',
+                'Specification-Vendor': 'AquaPerms',
                 'Specification-Version': '1'
         )
     }
@@ -44,15 +44,15 @@ processResources {
 }
 
 shadowJar {
-    archiveFileName = "LuckPerms-Forge-${project.ext.fullVersion}.jar"
+    archiveFileName = "AquaPerms-Forge-${project.ext.fullVersion}.jar"
 
     from {
         project(':forge').tasks.shadowJar.archiveFile
     }
 
     dependencies {
-        include(dependency('net.luckperms:.*'))
-        include(dependency('me.lucko.luckperms:.*'))
+        include(dependency('com.aquasplashmc:.*'))
+        include(dependency('com.xthesilent.aquaperms:.*'))
     }
 }
 

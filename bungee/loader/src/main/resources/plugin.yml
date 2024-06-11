@@ -1,6 +1,6 @@
-name: LuckPerms
+name: AquaPerms
 version: ${pluginVersion}
-description: A permissions plugin
-author: Luck
-main: me.lucko.luckperms.bungee.loader.BungeeLoaderPlugin
+description: A plugin better than LuckPerms
+author: XTHESilent
+main: com.xthesilent.aquaperms.bungee.loader.BungeeLoaderPlugin
 softDepends: ["RedisBungee"]

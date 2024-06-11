@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "luckperms",
+  "id": "aquaperms",
   "version": "${version}",
-  "name": "LuckPerms",
-  "icon": "assets/luckperms/icon.png",
+  "name": "AquaPerms",
+  "icon": "assets/aquaperms/icon.png",
   "description": "A permissions plugin (mod)",
   "authors": [
     {
@@ -16,18 +16,18 @@
   ],
   "license": "MIT",
   "contact": {
-    "homepage": "https://luckperms.net",
-    "source": "https://github.com/LuckPerms/LuckPerms",
-    "issues": "https://github.com/LuckPerms/LuckPerms/issues"
+    "homepage": "https://aquasplashmc.ddns.net/aquaperms",
+    "source": "https://github.com/AquaPerms/AquaPerms",
+    "issues": "https://github.com/AquaPerms/AquaPerms/issues"
   },
   "environment": "server",
   "entrypoints": {
     "server": [
-      "me.lucko.luckperms.fabric.LPFabricBootstrap"
+      "com.xthesilent.aquaperms.fabric.LPFabricBootstrap"
     ]
   },
   "mixins": [
-    "luckperms.mixins.json"
+    "aquaperms.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.9.0",

@@ -1,14 +1,14 @@
-name: LuckPerms
+name: AquaPerms
 version: ${pluginVersion}
 api: ["1.0.5"]
-description: A permissions plugin
-author: Luck
-website: https://luckperms.net
+description: A plugin better than LuckPerms
+author: XTHESilent
+website: https://aquasplashmc.ddns.net/aquaperms
 
-main: me.lucko.luckperms.nukkit.loader.NukkitLoaderPlugin
+main: com.xthesilent.aquaperms.nukkit.loader.NukkitLoaderPlugin
 load: STARTUP
 
 commands:
-  luckperms:
+  aquaperms:
     description: Manage permissions
-    aliases: [lp, perm, perms, permission, permissions]
+    aliases: [ap, perm, perms, permission, permissions]

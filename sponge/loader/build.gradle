@@ -20,7 +20,7 @@ processResources {
 }
 
 shadowJar {
-    archiveFileName = "LuckPerms-Sponge-${project.ext.fullVersion}.jar"
+    archiveFileName = "AquaPerms-Sponge-${project.ext.fullVersion}.jar"
 
     from {
         project(':sponge').tasks.shadowJar.archiveFile

@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.xthesilent.aquaperms.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CommandManagerMixin",
+    "ServerCommandSourceAccessor",
+    "ServerLoginNetworkHandlerAccessor",
+    "ServerPlayerEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
